@@ -14,9 +14,11 @@ fn App() -> impl IntoView {
             on:click=move |_| {
                 set_count.update(|n| *n += 1);
             }
+        class:red= move || count.get() % 2 == 1 
         >
             "Click me: "
             {move || count.get()}
         </button>
     }
 }
+
