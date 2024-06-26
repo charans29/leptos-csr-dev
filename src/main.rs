@@ -10,6 +10,7 @@ fn app() -> impl IntoView {
     let (count, set_count) = create_signal(0);
     let html = "<p>This is inner HTML injected.</p>";
     let double_count = move || count() * 2;
+    let values = vec![0, 1, 2];
     
     view! {
         <div style="text-align: center" inner_html=html />
@@ -28,6 +29,14 @@ fn app() -> impl IntoView {
                 "Click me: "
                 {move || count()}
             </button>
+            <br/>
+            <p>{values.clone()}</p>
+            <ul style="margin-left: -25px">
+                {values.into_iter()
+                    .map(|n| view! {<li>{n}</li>})
+                    .collect::<Vec<_>>()
+                }
+            </ul>
         </div>
     }
 }
