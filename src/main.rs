@@ -34,9 +34,11 @@ fn app() -> impl IntoView {
             <ul style="margin-left: -25px">
                 {values.into_iter()
                     .map(|n| view! {<li>{n}</li>})
-                    .collect::<Vec<_>>()
+                    .collect_view()
                 }
             </ul>
+            <br/>
+            <DynamicButtons />
         </div>
     }
 }
@@ -54,5 +56,26 @@ fn progress_bar(
             value=progress
         />
         <br/>
+    }
+}
+
+#[component]
+fn dynamic_buttons() -> impl IntoView {
+    let length = 5;
+    let counters = (1..=length).map(|idx| create_signal(idx));
+    let counter_buttons = counters
+        .map(|(count, set_count)| {
+            view! {
+                <li>
+                    <button on:click=move |_| set_count.update(|n| *n += 1)>
+                        {count}
+                    </button>
+                </li>
+            }
+        })
+        .collect_view();
+
+    view! {
+        <ul>{counter_buttons}</ul>
     }
 }
