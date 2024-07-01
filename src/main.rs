@@ -11,6 +11,7 @@ fn app() -> impl IntoView {
     let html = "<p>This is inner HTML injected.</p>";
     let double_count = move || count() * 2;
     let values = vec![0, 1, 2];
+    let (name, set_name) = create_signal("Controlled".to_string());
     
     view! {
         <div style="text-align: center" inner_html=html />
@@ -43,6 +44,14 @@ fn app() -> impl IntoView {
             <DynamicList initial_length=5/>
             <br/>
             <DbEntries />
+            <br/>
+            <input type="text"
+                on:input=move |ev| {
+                    set_name(event_target_value(&ev));
+                }
+                prop:value=name
+            />
+            <p>"Name is: " {name}</p>
         </div>
     }
 }
